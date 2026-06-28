@@ -156,15 +156,50 @@
   footer ul{list-style:none;font-size:13px;line-height:2}
   footer .copy{font-size:12px;color:#7c776c;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 
+  /* methodology */
+  .method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .mc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;position:relative}
+  .mc .mw{position:absolute;top:14px;right:16px;font-family:var(--serif);font-weight:800;color:var(--gold);font-size:18px}
+  .mc h4{font-size:15px;font-weight:700;margin-bottom:7px;padding-right:44px}
+  .mc p{font-size:12.5px;color:var(--ink2);line-height:1.55}
+
   @media(max-width:900px){
     .front{grid-template-columns:1fr}
-    .front .lead-col{border-right:none;padding-right:0}
+    .front .lead-col{border-right:none;padding-right:0;padding-bottom:0}
     .rail{padding-left:0;border-top:2px solid var(--ink);margin-top:6px}
-    .papers,.newsgrid{grid-template-columns:1fr}
-    .cards{grid-template-columns:1fr}
+    .papers,.newsgrid,.cards{grid-template-columns:1fr}
     .archive{grid-template-columns:repeat(3,1fr)}
-    .mast h1{font-size:38px}
-    nav.main .wrap{overflow-x:auto}
+    .method-grid{grid-template-columns:repeat(2,1fr)}
+    .mast h1{font-size:40px}
+    nav.main .wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    nav.main a{white-space:nowrap}
+  }
+  @media(max-width:600px){
+    .wrap{padding:0 16px}
+    .util .wrap{height:auto;flex-wrap:wrap;gap:6px 12px;padding:7px 16px;font-size:11px}
+    .util .tag{display:none}
+    .util .sp{flex-basis:100%;height:0}
+    .mast .wrap{padding:16px 16px 12px}
+    .mast h1{font-size:30px}
+    .mast .est{font-size:10px;letter-spacing:.1em}
+    .mast .slogan{font-size:16px}
+    .mast .subslogan{font-size:11px}
+    .mast .search{display:none}
+    nav.main .wrap{height:46px;gap:0}
+    nav.main a{font-size:14px;padding:8px 11px}
+    nav.main .minor{margin-left:10px}
+    .ticker .wrap{height:auto;padding:8px 16px}
+    .ticker .items{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .front .lead-col{padding:18px 0}
+    .lead .cover{height:200px}
+    .lead h2{font-size:23px}
+    .sec-stories{grid-template-columns:1fr;gap:18px}
+    .archive{grid-template-columns:repeat(2,1fr)}
+    .method-grid{grid-template-columns:1fr}
+    .shead h2{font-size:20px}
+    .section{padding:26px 0}
+    footer .top{flex-direction:column;gap:18px}
+    footer .cols{flex-wrap:wrap;gap:24px}
   }
 </style>
 </head>
@@ -199,8 +234,8 @@
 </div></nav>
 
 <div class="ticker"><div class="wrap">
-  <span class="lbl">속보</span>
-  <span class="items"><b>베트남 냐짱산 침향 경매가 사상 최고치 경신</b><span>·</span>위조 침향 적발 전년比 38% 증가<span>·</span>국내 GC-MS 감별 표준안 공개<span>·</span>CITES 부속서 개정 논의</span>
+  <span class="lbl">최신</span>
+  <span class="items"><b>침향과 선물 — 부모님께 드리는 최고의 건강 선물</b><span>·</span>침향 명칭 혼란 — 진위 논쟁과 올바른 이해<span>·</span>침향 재배 — 현대 산업과 지속 가능한 미래<span>·</span>침향과 만성염증: 모든 질병의 근원을 치료하다</span>
 </div></div>
 
 <div class="wrap">
@@ -251,6 +286,7 @@
           <li><span class="r">4</span><span class="bn">아삼 오드 하우스<span>인도</span></span><span class="sc m">7.1</span></li>
           <li><span class="r">5</span><span class="bn">메콩 아로마<span>위조 의혹</span></span><span class="sc r">4.6</span></li>
         </ul>
+        <div style="font-size:11px;color:var(--ink3);margin:8px 0 2px">* 예시 데이터 — 실제 평가 반영 예정</div>
         <a class="all">전체 신뢰 랭킹 →</a>
       </div>
     </aside>
@@ -261,18 +297,18 @@
     <div class="shead alt"><h2 class="serif">연구 · 논문</h2><div class="rule"></div><a class="more">논문 아카이브 전체 →</a></div>
     <div class="papers">
       <article class="paper">
-        <div class="pj">Philology · Aquilariae Lignum</div>
+        <div class="pj">문헌 연구 · Aquilariae Lignum</div>
         <h3 class="serif">침향(Aquilariae Lignum)의 침수성(沈水性)에 관한 문헌학적 연구</h3>
         <div class="en">A Philological Study on the Submersion Property of Aquilariae Lignum</div>
-        <p class="abs">'물에 가라앉는 성질(침수성)'을 침향 진위의 기준으로 삼아온 고문헌의 용례를 추적하고, 현대적 등급·감별 기준과의 정합성을 검토한다.</p>
-        <div class="meta"><b>한의학 문헌</b> · 2024 · 동의학연구 <span class="pdf">원문 PDF</span></div>
+        <p class="abs">침향의 ‘물에 가라앉는 성질(침수성)’을 주제로 한 학술 자료.</p>
+        <div class="meta"><b>학술 자료</b> <span class="pdf">PDF 원문 보유</span></div>
       </article>
       <article class="paper">
-        <div class="pj">Origin · Provenance</div>
+        <div class="pj">원산지 연구 · Provenance</div>
         <h3 class="serif">생산지에 기반한 침향의 기원에 관한 연구</h3>
         <div class="en">A Research on the Origin of Aquilariae Lignum Based on its Production</div>
-        <p class="abs">주요 생산국별 아퀼라리아 수종과 생성 환경을 비교하여 원산지 판별의 과학적 근거와 추적성(traceability) 체계를 제안한다.</p>
-        <div class="meta"><b>약용식물학</b> · 2023 · 생약학회지 <span class="pdf">원문 PDF</span></div>
+        <p class="abs">침향의 생산지·기원을 다루는 학술 자료.</p>
+        <div class="meta"><b>학술 자료</b> <span class="pdf">PDF 원문 보유</span></div>
       </article>
     </div>
   </section>
@@ -317,12 +353,26 @@
 
   <!-- 신뢰 랭킹 (요약) -->
   <section class="section">
-    <div class="shead alt"><h2 class="serif">침향 신뢰 랭킹</h2><div class="rule"></div><a class="more">전체 랭킹 →</a></div>
+    <div class="shead alt"><h2 class="serif">침향 신뢰 랭킹 <span style="font-size:12px;color:var(--ink3);font-weight:600">예시 데이터</span></h2><div class="rule"></div><a class="more">전체 랭킹 →</a></div>
     <div class="newsgrid">
       <div class="nrow"><span class="nk g" style="font-family:var(--serif);font-size:16px">1 · 8.7</span><span class="nt">사이공 오드 <span>베트남 냐짱 · 검증 완료 · 현장 실사</span></span></div>
       <div class="nrow"><span class="nk m" style="font-family:var(--serif);font-size:16px">3 · 7.5</span><span class="nt">앙코르 아가우드 <span>캄보디아 · 부분 검증</span></span></div>
       <div class="nrow"><span class="nk g" style="font-family:var(--serif);font-size:16px">2 · 8.2</span><span class="nt">칼리만탄 가하루 <span>인도네시아 · 검증 완료</span></span></div>
       <div class="nrow"><span class="nk r" style="font-family:var(--serif);font-size:16px">9 · 4.6</span><span class="nt">메콩 아로마 <span>베트남 · 위조 의혹 · 제보 12건</span></span></div>
+    </div>
+  </section>
+
+  <!-- 평가 기준 · 방법론 -->
+  <section class="section" id="methodology">
+    <div class="shead alt"><h2 class="serif">평가 기준 · 방법론</h2><div class="rule"></div><a class="more">기준 전체 보기 →</a></div>
+    <p style="font-size:14px;color:var(--ink2);max-width:70ch;margin-bottom:18px">Agarwooding Score(10점)는 아래 6대 지표를 <b>가중 합산</b>해 산출합니다. 모든 점수는 검증 가능한 근거(시험 성적서·사업자 등록·현장 자료·제보 이력)에 연결되며, 자료가 확보되기 전에는 점수를 부여하지 않습니다. 정기적으로 재평가합니다.</p>
+    <div class="method-grid">
+      <div class="mc"><div class="mw">30%</div><h4>진위·검증</h4><p>GC-MS 성분 분석, 전문가 감정, 침수성(沈水性) 시험으로 천연 침향 여부를 판정.</p></div>
+      <div class="mc"><div class="mw">20%</div><h4>원산지 투명성</h4><p>원산지 증빙·추적성(서류·현장)의 공개 수준과 일관성.</p></div>
+      <div class="mc"><div class="mw">20%</div><h4>품질 등급 일관성</h4><p>표기 등급과 실제 품질의 일치 여부, 등급 기준의 명확성.</p></div>
+      <div class="mc"><div class="mw">15%</div><h4>사업 신뢰도</h4><p>사업자 등록·운영 이력·규모·보유 인증.</p></div>
+      <div class="mc"><div class="mw">10%</div><h4>사용자 평가</h4><p>검증된 구매자의 리뷰·만족도.</p></div>
+      <div class="mc"><div class="mw">5%</div><h4>리스크</h4><p>위조·분쟁·제보 이력에 따른 감점.</p></div>
     </div>
   </section>
 </div>
