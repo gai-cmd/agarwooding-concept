@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agarwooding — 침향 신뢰·랭킹 미디어 (컨셉)</title>
+<style>
+  :root{
+    --green:#1E3A2B; --green-2:#2D5016; --green-soft:#E7EFE2; --green-ink:#3F6B4C;
+    --gold:#C9A86C; --gold-deep:#A6843E; --gold-soft:#F4ECDB;
+    --bg:#F7F6F1; --card:#FFFFFF; --card-2:#FBFAF6;
+    --ink:#1A1A18; --ink-2:#5A574F; --ink-3:#928E83; --line:#E7E3D8;
+    --good:#2E8B57; --good-bg:#E6F2EA; --mid:#B8862B; --mid-bg:#F6EBD4;
+    --bad:#C0392B; --bad-bg:#FBE7E4; --info:#566; --info-bg:#EBEAE3;
+    --sans:-apple-system,"Apple SD Gothic Neo","Pretendard",Segoe UI,Roboto,sans-serif;
+    --serif:"Iowan Old Style","Apple SD Gothic Neo",Georgia,serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+  .serif{font-family:var(--serif)}
+
+  /* sample banner */
+  .sample{background:#2b2722;color:#E8D9B8;font-size:12.5px;text-align:center;padding:7px 12px;letter-spacing:.01em}
+  .sample b{color:#fff}
+
+  /* nav */
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(247,246,241,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;gap:22px;height:62px}
+  .logo{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--green);letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+  .logo .mark{width:26px;height:26px;border-radius:7px;background:var(--green);display:grid;place-items:center}
+  .logo .mark svg{width:16px;height:16px;stroke:var(--gold)}
+  nav.menu{display:flex;gap:4px;margin-left:6px}
+  nav.menu a{font-size:14px;color:var(--ink-2);padding:8px 12px;border-radius:9px;font-weight:550;cursor:pointer;transition:.12s}
+  nav.menu a:hover{background:#ECEAE0;color:var(--ink)}
+  nav.menu a.on{color:var(--green);background:var(--green-soft);font-weight:700}
+  .nav-sp{flex:1}
+  .nav-search{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:7px 11px;width:210px;color:var(--ink-3);font-size:13px}
+  .nav-search svg{width:15px;height:15px;stroke:var(--ink-3);flex:none}
+  .lang{font-size:13px;color:var(--ink-2);border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 10px;font-weight:600}
+
+  .view{display:none} .view.on{display:block}
+
+  /* hero */
+  .hero{background:linear-gradient(160deg,#1E3A2B 0%,#274d36 60%,#2d5016 130%);color:#fff;position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;right:-80px;top:-80px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,108,.25),transparent 70%)}
+  .hero-in{padding:64px 22px 56px;max-width:1180px;margin:0 auto;position:relative;z-index:1}
+  .hero .eyebrow{display:inline-flex;align-items:center;gap:7px;background:rgba(201,168,108,.18);color:var(--gold);font-size:12.5px;font-weight:700;padding:6px 13px;border-radius:999px;letter-spacing:.02em}
+  .hero h1{font-family:var(--serif);font-size:42px;line-height:1.15;font-weight:700;margin:18px 0 12px;letter-spacing:-.02em}
+  .hero h1 .hl{color:var(--gold)}
+  .hero p.sub{font-size:17px;color:#D8E4D2;max-width:620px}
+  .searchbar{margin:28px 0 8px;display:flex;gap:10px;max-width:640px}
+  .searchbar input{flex:1;border:none;border-radius:13px;padding:16px 18px;font-size:15px;font-family:var(--sans);box-shadow:0 8px 30px rgba(0,0,0,.18)}
+  .searchbar button{border:none;background:var(--gold);color:#231b0c;font-weight:800;font-size:15px;padding:0 26px;border-radius:13px;cursor:pointer}
+  .searchbar button:hover{background:#d8b87a}
+  .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .tags span{font-size:12.5px;color:#cfe;opacity:.8}
+  .tags a{font-size:12.5px;background:rgba(255,255,255,.1);color:#eaf3e6;padding:5px 11px;border-radius:999px}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:40px}
+  .stats .s{background:var(--card);padding:18px 16px;text-align:center}
+  .stats .s b{font-family:var(--serif);font-size:26px;color:var(--green);display:block}
+  .stats .s span{font-size:12.5px;color:var(--ink-3)}
+
+  /* sections */
+  section.block{padding:46px 0}
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:20px}
+  .sec-head h2{font-family:var(--serif);font-size:25px;font-weight:700;letter-spacing:-.01em}
+  .sec-head h2 small{display:block;font-family:var(--sans);font-size:13px;color:var(--ink-3);font-weight:500;margin-top:4px;letter-spacing:0}
+  .sec-head a.more{font-size:13.5px;color:var(--green-ink);font-weight:700;cursor:pointer}
+
+  /* ranking table */
+  .rank{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .rank table{width:100%;border-collapse:collapse}
+  .rank th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);text-align:left;padding:13px 16px;background:var(--card-2);border-bottom:1px solid var(--line);font-weight:700}
+  .rank td{padding:14px 16px;border-bottom:1px solid var(--line-2,#F0EDE4);vertical-align:middle}
+  .rank tr:last-child td{border-bottom:none}
+  .rank tr.clickable{cursor:pointer;transition:.1s}
+  .rank tr.clickable:hover{background:#FBFAF5}
+  .rk{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--ink-3);width:34px}
+  .rk.top{color:var(--gold-deep)}
+  .brand-cell{display:flex;align-items:center;gap:12px}
+  .blogo{width:40px;height:40px;border-radius:10px;flex:none;display:grid;place-items:center;font-family:var(--serif);font-weight:700;color:#fff;font-size:16px}
+  .brand-cell .bn{font-weight:700;font-size:14.5px}
+  .brand-cell .bo{font-size:12px;color:var(--ink-3);display:flex;align-items:center;gap:5px;margin-top:1px}
+  .score{font-family:var(--serif);font-weight:800;font-size:22px;display:inline-flex;align-items:baseline;gap:2px}
+  .score small{font-size:12px;color:var(--ink-3);font-weight:600}
+  .sc-good{color:var(--good)} .sc-mid{color:var(--mid)} .sc-bad{color:var(--bad)}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:4px 9px;border-radius:999px;white-space:nowrap}
+  .pill svg{width:11px;height:11px}
+  .p-good{background:var(--good-bg);color:var(--good)} .p-mid{background:var(--mid-bg);color:var(--mid)}
+  .p-bad{background:var(--bad-bg);color:var(--bad)} .p-info{background:var(--info-bg);color:var(--info)}
+  .field{font-size:11.5px;color:var(--ink-3)}
+  .field.yes{color:var(--good);font-weight:700}
+  .btn-sm{font-size:12.5px;font-weight:700;color:var(--green);border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 12px;cursor:pointer}
+  .btn-sm:hover{background:var(--green-soft)}
+
+  /* risk cards */
+  .risk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .risk{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--bad);border-radius:13px;padding:16px}
+  .risk .rt{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:var(--bad);text-transform:uppercase;letter-spacing:.03em}
+  .risk .rt svg{width:14px;height:14px}
+  .risk h4{font-size:15px;margin:9px 0 5px;font-weight:700}
+  .risk p{font-size:13px;color:var(--ink-2)}
+  .risk .meta{font-size:11.5px;color:var(--ink-3);margin-top:10px}
+
+  /* report + blog cards */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:15px;overflow:hidden;cursor:pointer;transition:.14s}
+  .card:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(30,58,43,.09)}
+  .card .thumb{height:128px;background:linear-gradient(135deg,#2d5016,#3f6b4c)}
+  .card.r2 .thumb{background:linear-gradient(135deg,#6b4e2a,#a6843e)}
+  .card.r3 .thumb{background:linear-gradient(135deg,#3a4a52,#5b6470)}
+  .card .cbody{padding:15px 16px 17px}
+  .cat{font-size:11px;font-weight:800;letter-spacing:.04em;color:var(--gold-deep);text-transform:uppercase}
+  .card h3{font-size:15.5px;font-weight:700;margin:7px 0 6px;line-height:1.35}
+  .card p{font-size:12.5px;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .card .cmeta{font-size:11.5px;color:var(--ink-3);margin-top:11px;display:flex;gap:9px}
+
+  /* trust strip */
+  .trust{background:var(--green);color:#eaf3e6;border-radius:18px;padding:30px 28px;display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:22px;align-items:center}
+  .trust h3{font-family:var(--serif);font-size:21px;color:#fff;line-height:1.3}
+  .trust .ti b{font-family:var(--serif);font-size:20px;color:var(--gold);display:block}
+  .trust .ti span{font-size:12.5px;opacity:.8}
+
+  /* newsletter */
+  .news{background:var(--gold-soft);border:1px solid #ECDFC2;border-radius:18px;padding:34px;text-align:center}
+  .news h2{font-family:var(--serif);font-size:24px;color:var(--green);margin-bottom:8px}
+  .news p{font-size:14px;color:var(--ink-2);margin-bottom:18px}
+  .news .nf{display:flex;gap:9px;max-width:440px;margin:0 auto}
+  .news input{flex:1;border:1px solid #E0D2B2;border-radius:11px;padding:13px 15px;font-size:14px}
+  .news button{border:none;background:var(--green);color:#fff;font-weight:700;padding:0 22px;border-radius:11px;cursor:pointer}
+
+  /* footer */
+  footer{background:#20201d;color:#b7b3a7;margin-top:50px;padding:40px 0 28px}
+  footer .fin{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:24px}
+  footer .logo{color:#fff} footer .logo .mark{background:#2d5016}
+  footer p.fd{font-size:12.5px;margin-top:12px;max-width:260px;line-height:1.6}
+  footer h5{color:#fff;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+  footer ul{list-style:none;font-size:13px;line-height:2}
+  footer .copy{border-top:1px solid #33322d;margin-top:28px;padding-top:18px;font-size:12px;color:#888577;display:flex;justify-content:space-between}
+
+  /* ===== directory view ===== */
+  .page-head{background:linear-gradient(160deg,#1E3A2B,#2d5016);color:#fff;padding:40px 0 34px}
+  .page-head h1{font-family:var(--serif);font-size:32px;font-weight:700}
+  .page-head p{color:#cfe0c8;font-size:15px;margin-top:8px;max-width:640px}
+  .filters{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 18px}
+  .fchip{font-size:13px;font-weight:600;background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 14px;color:var(--ink-2);cursor:pointer;display:flex;align-items:center;gap:7px}
+  .fchip.on{background:var(--green-soft);border-color:#cfe0c8;color:var(--green);font-weight:700}
+  .fchip svg{width:13px;height:13px;opacity:.7}
+
+  /* ===== profile view ===== */
+  .prof-head{background:linear-gradient(160deg,#1E3A2B,#2d5016);color:#fff;padding:34px 0 30px}
+  .prof-top{display:flex;align-items:center;gap:20px}
+  .prof-top .blogo{width:72px;height:72px;font-size:28px;border-radius:16px}
+  .prof-top h1{font-family:var(--serif);font-size:30px;font-weight:700}
+  .prof-top .pmeta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .prof-score{margin-left:auto;text-align:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:14px 26px}
+  .prof-score b{font-family:var(--serif);font-size:46px;color:var(--gold);line-height:1}
+  .prof-score span{font-size:12px;color:#cfe0c8;display:block;margin-top:4px}
+  .grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:22px;margin-top:30px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
+  .panel h3{font-family:var(--serif);font-size:18px;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+  .panel h3 svg{width:17px;height:17px;stroke:var(--green-ink)}
+  .bar{margin-bottom:15px}
+  .bar .bl{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
+  .bar .bl b{font-weight:700}
+  .track{height:8px;background:#EEEBE1;border-radius:99px;overflow:hidden}
+  .track i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#3f6b4c,#5e9e6e)}
+  .track i.mid{background:linear-gradient(90deg,#b8862b,#d8b04a)}
+  .track i.bad{background:linear-gradient(90deg,#c0392b,#e0654a)}
+  .vlist{list-style:none}
+  .vlist li{display:flex;gap:11px;padding:11px 0;border-bottom:1px solid #F0EDE4;font-size:13.5px}
+  .vlist li:last-child{border:none}
+  .vlist .vi{width:26px;height:26px;border-radius:7px;flex:none;display:grid;place-items:center;background:var(--good-bg)}
+  .vlist .vi svg{width:14px;height:14px;stroke:var(--good)}
+  .vlist .vi.no{background:var(--bad-bg)} .vlist .vi.no svg{stroke:var(--bad)}
+  .prod-row{display:flex;gap:13px;align-items:center;padding:12px 0;border-bottom:1px solid #F0EDE4}
+  .prod-row:last-child{border:none}
+  .prod-row .pi{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,#6b4e2a,#a6843e);flex:none}
+  .prod-row .pn{font-size:13.5px;font-weight:600}
+  .prod-row .pp{font-size:12.5px;color:var(--gold-deep);font-weight:700;margin-left:auto}
+  .methodbox{background:var(--card-2);border:1px dashed #D8CFB8;border-radius:13px;padding:16px;font-size:12.5px;color:var(--ink-2);margin-top:18px;line-height:1.6}
+  .methodbox b{color:var(--green)}
+
+  @media(max-width:880px){
+    .stats,.trust,footer .fin{grid-template-columns:1fr 1fr}
+    .risk-grid,.cards{grid-template-columns:1fr}
+    .grid2{grid-template-columns:1fr}
+    nav.menu{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="sample">컨셉 목업 — 디자인 방향 검토용입니다. <b>모든 브랜드명·점수·통계는 예시(가상)</b>이며 실제 평가가 아닙니다. 실제 블로그 기사 제목만 이관된 데이터에서 가져왔습니다.</div>
+
+<header class="nav"><div class="wrap nav-in">
+  <div class="logo"><span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg></span>Agarwooding</div>
+  <nav class="menu">
+    <a data-go="home" class="on">홈</a>
+    <a data-go="dir">브랜드 랭킹</a>
+    <a data-go="dir">보고서</a>
+    <a data-go="home">진위·등급 가이드</a>
+    <a data-go="home">블로그</a>
+    <a data-go="home">제보</a>
+  </nav>
+  <div class="nav-sp"></div>
+  <div class="nav-search"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>브랜드 검색</div>
+  <button class="lang">KO</button>
+</div></header>
+
+<!-- ============ HOME ============ -->
+<div id="home" class="view on">
+  <div class="hero"><div class="hero-in">
+    <span class="eyebrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg> 전 세계 침향 신뢰 지수</span>
+    <h1>전 세계 침향, <span class="hl">믿고</span> 고르세요.</h1>
+    <p class="sub">원산지·진위·품질·사업 신뢰도를 종합한 <b>Agarwooding Score</b>로 전 세계 침향 브랜드와 업체를 검증하고 랭킹합니다. 위조·과장 없는 침향 미디어.</p>
+    <div class="searchbar">
+      <input placeholder="브랜드·업체·원산지를 검색하세요 (예: 베트남 냐짱, 기남)">
+      <button>검색</button>
+    </div>
+    <div class="tags"><span>인기 검색:</span><a>베트남 냐짱</a><a>기남(奇楠)</a><a>칼리만탄</a><a>해썹 인증</a><a>위조 제보</a></div>
+    <div class="stats">
+      <div class="s"><b>1,240</b><span>등록 브랜드/업체</span></div>
+      <div class="s"><b>312</b><span>진위 검증 완료</span></div>
+      <div class="s"><b>97</b><span>심층 보고서·기사</span></div>
+      <div class="s"><b>1,580</b><span>사용자 제보·리뷰</span></div>
+    </div>
+  </div></div>
+
+  <div class="wrap">
+    <section class="block">
+      <div class="sec-head"><h2>종합 랭킹 TOP<small>Agarwooding Score 기준 · 전 원산지 통합</small></h2><a class="more" data-go="dir">전체 랭킹 보기 →</a></div>
+      <div class="rank"><table>
+        <thead><tr><th>#</th><th>브랜드 / 업체</th><th>점수</th><th>진위 검증</th><th>원산지</th><th>실사</th><th></th></tr></thead>
+        <tbody id="topRows"></tbody>
+      </table></div>
+    </section>
+
+    <section class="block" style="padding-top:6px">
+      <div class="sec-head"><h2 style="color:var(--bad)">리스크 경고<small>위조·사기·과장 의혹이 접수된 업체</small></h2><a class="more" data-go="dir">전체 경고 →</a></div>
+      <div class="risk-grid">
+        <div class="risk"><div class="rt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 20h20z"/><path d="M12 9v5M12 17v.5"/></svg> 위조 의혹</div><h4>메콩 아로마 (베트남)</h4><p>천연 침향에 합성 향료 첨가 의혹. GC-MS 분석 불일치 사례 보고.</p><div class="meta">제보 12건 · 점수 4.6 · 검증 보류</div></div>
+        <div class="risk"><div class="rt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 20h20z"/><path d="M12 9v5M12 17v.5"/></svg> 거래 사기 경보</div><h4>골든 우드 글로벌 (불명)</h4><p>선결제 후 미배송·연락 두절 다수. 사업자 정보 확인 불가.</p><div class="meta">제보 31건 · 점수 3.1 · 블랙리스트</div></div>
+        <div class="risk"><div class="rt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 20h20z"/><path d="M12 9v5M12 17v.5"/></svg> 등급 과장</div><h4>보르네오 센트 (말레이시아)</h4><p>일반 등급을 '기남'으로 표기·판매 정황. 등급 검증 진행 중.</p><div class="meta">제보 7건 · 점수 5.9 · 주의</div></div>
+      </div>
+    </section>
+
+    <section class="block" style="padding-top:6px">
+      <div class="sec-head"><h2>최신 심층 보고서<small>편집국의 검증된 리포트와 시장 분석</small></h2><a class="more" data-go="home">보고서 전체 →</a></div>
+      <div class="cards" id="reportCards"></div>
+    </section>
+
+    <section class="block" style="padding-top:6px">
+      <div class="trust">
+        <h3>신뢰는 방법론에서 나옵니다.</h3>
+        <div class="ti"><b>6대 지표</b><span>가중 합산 평가</span></div>
+        <div class="ti"><b>GC-MS</b><span>성분 분석 연동</span></div>
+        <div class="ti"><b>현장 실사</b><span>업체 실재 확인</span></div>
+      </div>
+    </section>
+
+    <section class="block" style="padding-top:6px">
+      <div class="sec-head"><h2>최신 블로그 · 미디어<small>침향의 역사·과학·문화·라이프</small></h2><a class="more" data-go="home">블로그 전체 →</a></div>
+      <div class="cards" id="blogCards"></div>
+    </section>
+
+    <section class="block" style="padding-top:6px">
+      <div class="news">
+        <h2>침향 시장의 진짜 소식을 받아보세요</h2>
+        <p>신규 검증 결과, 리스크 경고, 심층 보고서를 이메일로 보내드립니다.</p>
+        <div class="nf"><input placeholder="이메일 주소"><button>구독하기</button></div>
+      </div>
+    </section>
+  </div>
+
+  <footer><div class="wrap">
+    <div class="fin">
+      <div>
+        <div class="logo"><span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg></span>Agarwooding</div>
+        <p class="fd">전 세계 침향의 깊이와 신뢰를 전하는 종합 미디어. 위조 없는 침향 시장을 위하여.</p>
+      </div>
+      <div><h5>탐색</h5><ul><li>브랜드 랭킹</li><li>원산지별</li><li>심층 보고서</li><li>진위·등급 가이드</li></ul></div>
+      <div><h5>참여</h5><ul><li>위조·사기 제보</li><li>업체 등록 신청</li><li>리뷰 작성</li><li>정정 요청</li></ul></div>
+      <div><h5>회사</h5><ul><li>평가 방법론</li><li>소개</li><li>연락처</li><li>이용약관</li></ul></div>
+    </div>
+    <div class="copy"><span>© 2026 Agarwooding. All rights reserved.</span><span>개인정보처리방침 · 이용약관</span></div>
+  </div></footer>
+</div>
+
+<!-- ============ DIRECTORY / RANKING ============ -->
+<div id="dir" class="view">
+  <div class="page-head"><div class="wrap">
+    <h1>브랜드 랭킹</h1>
+    <p>Agarwooding Score 기준 전 세계 침향 브랜드·업체 종합 순위. 원산지·제품군·검증 상태로 필터링하세요.</p>
+  </div></div>
+  <div class="wrap">
+    <div class="filters">
+      <div class="fchip on">전체 원산지</div>
+      <div class="fchip">베트남</div><div class="fchip">캄보디아</div><div class="fchip">인도네시아</div>
+      <div class="fchip">인도(아삼)</div><div class="fchip">중국(하이난)</div>
+      <div class="fchip" style="margin-left:auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M6 12h12M10 18h4"/></svg> 검증 완료만</div>
+      <div class="fchip">정렬: 점수 높은순</div>
+    </div>
+    <div class="rank" style="margin-bottom:50px"><table>
+      <thead><tr><th>#</th><th>브랜드 / 업체</th><th>Agarwooding Score</th><th>진위 검증</th><th>원산지</th><th>현장 실사</th><th>리뷰</th><th></th></tr></thead>
+      <tbody id="allRows"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- ============ BRAND PROFILE ============ -->
+<div id="prof" class="view">
+  <div class="prof-head"><div class="wrap">
+    <div class="prof-top">
+      <div class="blogo" style="background:linear-gradient(135deg,#2d5016,#3f6b4c)">사</div>
+      <div>
+        <h1>사이공 오드 <span style="font-size:16px;color:#cfe0c8">Saigon Oud</span></h1>
+        <div class="pmeta">
+          <span class="pill p-good"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> 진위 검증 완료</span>
+          <span class="pill p-good"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> 현장 실사 완료</span>
+          <span class="pill p-info">베트남 · 냐짱</span>
+          <span class="pill p-info">설립 2003</span>
+        </div>
+      </div>
+      <div class="prof-score"><b>8.7</b><span>Agarwooding Score / 10</span></div>
+    </div>
+  </div></div>
+
+  <div class="wrap">
+    <div class="grid2">
+      <div class="panel">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg> 점수 분해 (6대 지표)</h3>
+        <div class="bar"><div class="bl"><span>진위·검증 (GC-MS/감정)</span><b>9.2</b></div><div class="track"><i style="width:92%"></i></div></div>
+        <div class="bar"><div class="bl"><span>원산지 투명성·추적성</span><b>8.8</b></div><div class="track"><i style="width:88%"></i></div></div>
+        <div class="bar"><div class="bl"><span>품질 등급 일관성</span><b>8.5</b></div><div class="track"><i style="width:85%"></i></div></div>
+        <div class="bar"><div class="bl"><span>사업 신뢰도 (등록·이력)</span><b>8.9</b></div><div class="track"><i style="width:89%"></i></div></div>
+        <div class="bar"><div class="bl"><span>사용자 평가</span><b>8.4</b></div><div class="track"><i class="mid" style="width:84%"></i></div></div>
+        <div class="bar"><div class="bl"><span>리스크 (분쟁·제보)</span><b>9.0</b></div><div class="track"><i style="width:90%"></i></div></div>
+        <div class="methodbox"><b>평가 방법론.</b> 6대 지표를 가중 합산해 산출합니다(진위 30% · 원산지 20% · 품질 20% · 사업 15% · 사용자 10% · 리스크 5%). 모든 점수는 검증 가능한 근거(시험 성적서, 사업자 등록, 현장 사진, 제보 이력)에 연결됩니다. <u>본 화면은 컨셉 예시입니다.</u></div>
+      </div>
+
+      <div>
+        <div class="panel" style="margin-bottom:22px">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg> 검증 배지</h3>
+          <ul class="vlist">
+            <li><span class="vi"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></span><div><b>GC-MS 성분 분석</b><br><span style="color:var(--ink-3);font-size:12px">2025-11 · 천연 침향 성분 확인</span></div></li>
+            <li><span class="vi"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></span><div><b>20년 올가닉 해썹(HACCP) 인증</b></div></li>
+            <li><span class="vi"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></span><div><b>현장 실사 완료</b><br><span style="color:var(--ink-3);font-size:12px">2025-12 · 냐짱 본사·농장 확인</span></div></li>
+            <li><span class="vi no"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></span><div><b>CITES 수출 서류</b><br><span style="color:var(--ink-3);font-size:12px">미제출 — 보완 요청</span></div></li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6"/></svg> 제품 라인업</h3>
+          <div class="prod-row"><div class="pi"></div><div><div class="pn">냐짱 침향 원목 100g</div><div style="font-size:12px;color:var(--ink-3)">최상급 · 야생</div></div><div class="pp">₩1,200,000</div></div>
+          <div class="prod-row"><div class="pi"></div><div><div class="pn">기남(奇楠) 향편 10g</div><div style="font-size:12px;color:var(--ink-3)">감정서 동봉</div></div><div class="pp">₩890,000</div></div>
+          <div class="prod-row"><div class="pi"></div><div><div class="pn">침향 라인 인센스 (선향)</div><div style="font-size:12px;color:var(--ink-3)">데일리</div></div><div class="pp">₩68,000</div></div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin:34px 0 50px"><button class="btn-sm" data-go="dir" style="padding:11px 20px">← 랭킹으로 돌아가기</button></div>
+  </div>
+</div>
+
+<script>
+/* ---- sample brand data (illustrative only) ---- */
+const BRANDS = [
+  {r:1, n:"사이공 오드", en:"Saigon Oud", o:"베트남 · 냐짱", c:"#2d5016", s:8.7, ver:"good", verT:"검증 완료", field:true, rev:214, init:"사"},
+  {r:2, n:"칼리만탄 가하루", en:"Kalimantan Gaharu Co.", o:"인도네시아", c:"#3f6b4c", s:8.2, ver:"good", verT:"검증 완료", field:true, rev:168, init:"칼"},
+  {r:3, n:"앙코르 아가우드", en:"Angkor Agarwood", o:"캄보디아", c:"#6b4e2a", s:7.5, ver:"mid", verT:"부분 검증", field:true, rev:97, init:"앙"},
+  {r:4, n:"아삼 오드 하우스", en:"Assam Oud House", o:"인도 · 아삼", c:"#a6843e", s:7.1, ver:"good", verT:"검증 완료", field:false, rev:142, init:"아"},
+  {r:5, n:"하이난 침향당", en:"Hainan Chimhyang", o:"중국 · 하이난", c:"#5b6470", s:6.8, ver:"mid", verT:"부분 검증", field:false, rev:88, init:"하"},
+  {r:6, n:"라오 우드 트레이딩", en:"Lao Wood Trading", o:"라오스", c:"#4a5240", s:6.3, ver:"info", verT:"미검증", field:false, rev:51, init:"라"},
+  {r:7, n:"보르네오 센트", en:"Borneo Scent", o:"말레이시아", c:"#7a6a4a", s:5.9, ver:"bad", verT:"주의 (등급 과장)", field:false, rev:64, init:"보"},
+  {r:8, n:"트랏 인센스", en:"Trat Incense", o:"태국", c:"#6e5b3a", s:5.2, ver:"info", verT:"미검증", field:false, rev:33, init:"트"},
+  {r:9, n:"메콩 아로마", en:"Mekong Aroma", o:"베트남", c:"#8a5a3a", s:4.6, ver:"bad", verT:"위조 의혹", field:false, rev:120, init:"메"},
+  {r:10, n:"골든 우드 글로벌", en:"Golden Wood Global", o:"원산지 불명", c:"#9a3b2b", s:3.1, ver:"bad", verT:"블랙리스트", field:false, rev:31, init:"골"},
+];
+const REPORTS = [
+  {cat:"역사", t:"침향 명칭 혼란 — 진위 논쟁과 올바른 이해", d:"침향, 沈香, 기남, 가라... 다양한 이름 뒤에 숨겨진 진짜 침향의 정의와 가품 구별법.", cls:""},
+  {cat:"라이프", t:"침향은 왜 비싼가? 금보다 귀한 이유", d:"침향의 높은 가격 결정 요인과 가격 정당성에 대한 과학적 분석.", cls:"r2"},
+  {cat:"라이프", t:"침향 재배 — 현대 산업과 지속 가능한 미래", d:"야생 침향과 재배 침향의 차이, 그리고 2050년의 침향 산업.", cls:"r3"},
+];
+const BLOGS = [
+  {cat:"라이프", t:"침향과 선물 — 부모님께 드리는 최고의 건강 선물", d:"관계별·예산별 침향 선물 가이드와 포장법.", cls:""},
+  {cat:"과학", t:"침향과 만성염증: 모든 질병의 근원을 치료하다", d:"현대 질병의 공통 원인인 만성 염증과 침향의 작용.", cls:"r2"},
+  {cat:"역사", t:"침향의 문화적 위상: 동양 최고의 정신적 자산", d:"동양 문화에서 가장 귀한 물질로 여겨져 온 침향의 의의.", cls:"r3"},
+];
+const checkSvg='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>';
+const warnSvg='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 2L2 20h20z"/><path d="M12 9v5M12 17v.5"/></svg>';
+function scoreClass(s){return s>=8?"sc-good":s>=6?"sc-mid":"sc-bad"}
+function verPill(v,t){const map={good:"p-good",mid:"p-mid",bad:"p-bad",info:"p-info"};const ic=(v==="good")?checkSvg:(v==="bad")?warnSvg:"";return `<span class="pill ${map[v]}">${ic} ${t}</span>`}
+function brandCell(b){return `<div class="brand-cell"><div class="blogo" style="background:linear-gradient(135deg,${b.c},#3f6b4c)">${b.init}</div><div><div class="bn">${b.n}</div><div class="bo">${b.en} · ${b.o}</div></div></div>`}
+function scoreCell(b){return `<span class="score ${scoreClass(b.s)}">${b.s.toFixed(1)}<small>/10</small></span>`}
+
+function rowTop(b){return `<tr class="clickable" data-go="prof"><td class="rk ${b.r<=3?'top':''}">${b.r}</td><td>${brandCell(b)}</td><td>${scoreCell(b)}</td><td>${verPill(b.ver,b.verT)}</td><td style="font-size:13px;color:var(--ink-2)">${b.o}</td><td>${b.field?'<span class="field yes">완료</span>':'<span class="field">-</span>'}</td><td><button class="btn-sm" data-go="prof">상세</button></td></tr>`}
+function rowAll(b){return `<tr class="clickable" data-go="prof"><td class="rk ${b.r<=3?'top':''}">${b.r}</td><td>${brandCell(b)}</td><td>${scoreCell(b)}</td><td>${verPill(b.ver,b.verT)}</td><td style="font-size:13px;color:var(--ink-2)">${b.o}</td><td>${b.field?'<span class="field yes">완료</span>':'<span class="field">-</span>'}</td><td style="font-size:13px;color:var(--ink-2)">${b.rev}건</td><td><button class="btn-sm" data-go="prof">상세</button></td></tr>`}
+function cardHtml(x){return `<div class="card ${x.cls}" data-go="home"><div class="thumb"></div><div class="cbody"><div class="cat">${x.cat}</div><h3>${x.t}</h3><p>${x.d}</p><div class="cmeta"><span>Agarwooding 편집국</span><span>2026.06</span></div></div></div>`}
+
+document.getElementById('topRows').innerHTML = BRANDS.slice(0,5).map(rowTop).join('');
+document.getElementById('allRows').innerHTML = BRANDS.map(rowAll).join('');
+document.getElementById('reportCards').innerHTML = REPORTS.map(cardHtml).join('');
+document.getElementById('blogCards').innerHTML = BLOGS.map(cardHtml).join('');
+
+function show(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id===id));
+  document.querySelectorAll('nav.menu a').forEach(a=>a.classList.toggle('on',a.dataset.go===id));
+  window.scrollTo(0,0);
+}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-go]');if(t){e.preventDefault();show(t.dataset.go)}});
+</script>
+</body>
+</html>
