@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agarwooding · 침향 전문 미디어 (컨셉 v2 — 미디어 채널)</title>
+<style>
+  :root{
+    --ink:#16140f; --ink2:#46423a; --ink3:#8b867a; --line:#e2ddd0; --line2:#efebe0;
+    --paper:#fbfaf6; --surface:#ffffff;
+    --green:#1f3d2b; --green2:#2d5016; --gold:#a9823b; --gold2:#c9a86c;
+    --red:#b23b2b;
+    --mast:#15140f;
+    --serif:"Iowan Old Style","Times New Roman",Georgia,"Apple SD Gothic Neo",serif;
+    --sans:-apple-system,"Apple SD Gothic Neo","Pretendard",Segoe UI,Roboto,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+  .serif{font-family:var(--serif)}
+  .kicker{font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--gold)}
+
+  .sample{background:#2b2722;color:#e8d9b8;font-size:12px;text-align:center;padding:6px}
+  .sample b{color:#fff}
+
+  /* utility bar */
+  .util{background:var(--mast);color:#cfc9ba;font-size:12px}
+  .util .wrap{display:flex;align-items:center;gap:18px;height:38px}
+  .util .date{letter-spacing:.02em}
+  .util .tag{color:var(--gold2);font-weight:700}
+  .util .sp{flex:1}
+  .util a{color:#cfc9ba}
+  .util .lang b{color:#fff}
+
+  /* masthead */
+  .mast{background:var(--surface);border-bottom:2px solid var(--ink)}
+  .mast .wrap{text-align:center;padding:22px 24px 16px;position:relative}
+  .mast .est{font-size:11px;color:var(--ink3);letter-spacing:.16em;text-transform:uppercase}
+  .mast h1{font-family:var(--serif);font-size:52px;font-weight:800;letter-spacing:.01em;line-height:1;margin:6px 0 7px}
+  .mast .slogan{font-size:13px;color:var(--ink2);letter-spacing:.04em}
+  .mast .search{position:absolute;right:24px;top:24px;border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:12.5px;color:var(--ink3);display:flex;gap:7px;align-items:center}
+  .mast .search svg{width:14px;height:14px;stroke:var(--ink3)}
+
+  /* nav */
+  nav.main{background:var(--surface);border-bottom:1px solid var(--ink);position:sticky;top:0;z-index:30}
+  nav.main .wrap{display:flex;align-items:center;gap:2px;height:50px}
+  nav.main a{font-size:15px;font-weight:700;padding:8px 16px;color:var(--ink);letter-spacing:-.01em}
+  nav.main a:hover{color:var(--green2)}
+  nav.main a.lead{color:var(--green2)}
+  nav.main .minor{margin-left:auto;display:flex;gap:0}
+  nav.main .minor a{font-size:13px;font-weight:600;color:var(--ink3)}
+
+  /* breaking ticker */
+  .ticker{background:#f3efe4;border-bottom:1px solid var(--line);font-size:13px}
+  .ticker .wrap{display:flex;align-items:center;gap:14px;height:40px;overflow:hidden}
+  .ticker .lbl{background:var(--red);color:#fff;font-weight:800;font-size:11px;letter-spacing:.05em;padding:4px 9px;border-radius:3px;flex:none}
+  .ticker .items{color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ticker .items b{color:var(--ink);font-weight:700}
+  .ticker .items span{color:var(--ink3);margin:0 12px}
+
+  /* front grid */
+  .front{display:grid;grid-template-columns:1fr 340px;gap:0;border-bottom:1px solid var(--ink);}
+  .front .lead-col{border-right:1px solid var(--line);padding:26px 30px 26px 0}
+  .lead .kicker{margin-bottom:8px}
+  .lead .cover{width:100%;height:340px;border-radius:3px;background:linear-gradient(135deg,#22331f,#3f6b4c);margin-bottom:16px;position:relative;overflow:hidden}
+  .lead .cover::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 30%,rgba(201,168,108,.28),transparent 60%)}
+  .lead h2{font-family:var(--serif);font-size:34px;line-height:1.18;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+  .lead .dek{font-size:15px;color:var(--ink2);line-height:1.6;max-width:62ch}
+  .lead .byline{font-size:12.5px;color:var(--ink3);margin-top:12px;border-top:1px solid var(--line2);padding-top:10px}
+
+  .sec-stories{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px;padding-top:22px;border-top:2px solid var(--ink)}
+  .mini .kicker{margin-bottom:6px}
+  .mini h3{font-family:var(--serif);font-size:19px;line-height:1.25;font-weight:700;margin-bottom:6px}
+  .mini p{font-size:13px;color:var(--ink2);line-height:1.55}
+  .mini .thumb{height:120px;border-radius:3px;margin-bottom:10px;background:linear-gradient(135deg,#6b4e2a,#a6843e)}
+  .mini.b .thumb{background:linear-gradient(135deg,#3a4a52,#5b6470)}
+
+  /* right rail */
+  .rail{padding:26px 0 26px 28px}
+  .rail .box{margin-bottom:26px}
+  .rail .bt{font-family:var(--serif);font-size:17px;font-weight:800;border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+  .rail .bt .live{font-size:10px;font-weight:800;color:var(--red);letter-spacing:.06em;display:flex;align-items:center;gap:5px}
+  .rail .bt .live i{width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block;animation:pulse 1.5s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  .hl{list-style:none}
+  .hl li{display:flex;gap:11px;padding:11px 0;border-bottom:1px solid var(--line2)}
+  .hl li:last-child{border:none}
+  .hl .n{font-family:var(--serif);font-size:18px;font-weight:800;color:var(--gold);width:20px;flex:none;line-height:1.2}
+  .hl .t{font-size:13.5px;font-weight:600;line-height:1.4}
+  .hl .t span{display:block;font-size:11.5px;color:var(--ink3);font-weight:500;margin-top:3px}
+
+  /* trust mini */
+  .trust li{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line2)}
+  .trust li:last-child{border:none}
+  .trust .r{font-family:var(--serif);font-weight:800;color:var(--ink3);width:16px}
+  .trust .bn{font-size:13px;font-weight:700;flex:1}
+  .trust .bn span{display:block;font-size:11px;color:var(--ink3);font-weight:500}
+  .trust .sc{font-family:var(--serif);font-weight:800;font-size:16px}
+  .g{color:#2e8b57}.m{color:#b8862b}.r{color:var(--red)}
+  .trust .all{font-size:12px;color:var(--green2);font-weight:700;margin-top:12px;display:inline-block}
+
+  /* section header */
+  .section{padding:34px 0}
+  .shead{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+  .shead h2{font-family:var(--serif);font-size:24px;font-weight:800;white-space:nowrap}
+  .shead .rule{height:2px;background:var(--ink);flex:1}
+  .shead .more{font-size:13px;font-weight:700;color:var(--green2);white-space:nowrap}
+  .shead.alt h2{color:var(--green2)}
+
+  /* research / papers */
+  .papers{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+  .paper{background:var(--surface);padding:22px 24px}
+  .paper .pj{font-size:11.5px;color:var(--gold);font-weight:800;letter-spacing:.04em;text-transform:uppercase;margin-bottom:9px}
+  .paper h3{font-family:var(--serif);font-size:19px;line-height:1.3;font-weight:700;margin-bottom:7px}
+  .paper .en{font-size:12.5px;color:var(--ink3);font-style:italic;margin-bottom:11px}
+  .paper .abs{font-size:13px;color:var(--ink2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .paper .meta{display:flex;gap:14px;margin-top:13px;font-size:12px;color:var(--ink3);border-top:1px solid var(--line2);padding-top:11px}
+  .paper .meta b{color:var(--ink2);font-weight:600}
+  .paper .pdf{margin-left:auto;color:var(--red);font-weight:700}
+
+  /* reports cards */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .card .thumb{height:150px;border-radius:3px;margin-bottom:12px;background:linear-gradient(135deg,#2d5016,#3f6b4c)}
+  .card.b .thumb{background:linear-gradient(135deg,#6b4e2a,#a6843e)}
+  .card.c .thumb{background:linear-gradient(135deg,#3a4a52,#5b6470)}
+  .card .kicker{margin-bottom:6px}
+  .card h3{font-family:var(--serif);font-size:18px;line-height:1.3;font-weight:700;margin-bottom:7px}
+  .card p{font-size:13px;color:var(--ink2);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .card .meta{font-size:11.5px;color:var(--ink3);margin-top:11px}
+
+  /* knowledge archive */
+  .archive{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+  .topic{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px 14px;text-align:center;transition:.14s}
+  .topic:hover{border-color:var(--green2);box-shadow:0 8px 22px rgba(31,61,43,.08)}
+  .topic .ic{width:38px;height:38px;margin:0 auto 10px;border-radius:9px;background:#eef3ea;display:grid;place-items:center}
+  .topic .ic svg{width:19px;height:19px;stroke:var(--green2)}
+  .topic .tn{font-size:14px;font-weight:700}
+  .topic .tc{font-size:11.5px;color:var(--ink3);margin-top:3px}
+
+  /* news list */
+  .newsgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 40px}
+  .nrow{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line2);align-items:baseline}
+  .nrow .nk{font-size:11px;font-weight:800;color:var(--gold);width:54px;flex:none;text-transform:uppercase;letter-spacing:.03em}
+  .nrow .nt{font-size:14.5px;font-weight:600;line-height:1.4}
+  .nrow .nt span{color:var(--ink3);font-weight:500;font-size:12px;margin-left:8px}
+
+  /* footer */
+  footer{background:var(--mast);color:#b3ada0;margin-top:44px;padding:44px 0 30px;border-top:3px solid var(--gold)}
+  footer .top{display:flex;justify-content:space-between;align-items:flex-start;gap:30px;flex-wrap:wrap;border-bottom:1px solid #322f28;padding-bottom:26px;margin-bottom:20px}
+  footer h2{font-family:var(--serif);font-size:30px;color:#fff;font-weight:800}
+  footer .fd{font-size:12.5px;margin-top:8px;max-width:320px;line-height:1.6}
+  footer .cols{display:flex;gap:46px}
+  footer h5{color:#fff;font-size:12px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:11px}
+  footer ul{list-style:none;font-size:13px;line-height:2}
+  footer .copy{font-size:12px;color:#7c776c;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+  @media(max-width:900px){
+    .front{grid-template-columns:1fr}
+    .front .lead-col{border-right:none;padding-right:0}
+    .rail{padding-left:0;border-top:2px solid var(--ink);margin-top:6px}
+    .papers,.newsgrid{grid-template-columns:1fr}
+    .cards{grid-template-columns:1fr}
+    .archive{grid-template-columns:repeat(3,1fr)}
+    .mast h1{font-size:38px}
+    nav.main .wrap{overflow-x:auto}
+  }
+</style>
+</head>
+<body>
+
+<div class="sample">컨셉 v2 (미디어 채널) — 디자인 방향 검토용. <b>뉴스·랭킹·통계·논문 메타데이터는 예시(가상)</b>이며, 일부 기사·논문 제목은 실제 자료에서 가져왔습니다.</div>
+
+<div class="util"><div class="wrap">
+  <span class="date">2026년 6월 28일 토요일</span>
+  <span class="tag">국내 유일 · 침향 전문 미디어</span>
+  <span class="sp"></span>
+  <a>뉴스레터 구독</a><a>로그인</a>
+  <span class="lang"><b>KO</b> · JA · EN</span>
+</div></div>
+
+<header class="mast"><div class="wrap">
+  <div class="est">Agarwood Professional Media · since 2026</div>
+  <h1 class="serif">Agarwooding</h1>
+  <div class="slogan">침향의 모든 지식을 잇다 — 뉴스 · 연구 · 신뢰</div>
+  <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>검색</div>
+</div></header>
+
+<nav class="main"><div class="wrap">
+  <a class="lead">뉴스</a>
+  <a>심층 리포트</a>
+  <a>연구 · 논문</a>
+  <a>지식 아카이브</a>
+  <a>신뢰 랭킹</a>
+  <a>영상</a>
+  <span class="minor"><a>시장 데이터</a><a>블로그</a></span>
+</div></nav>
+
+<div class="ticker"><div class="wrap">
+  <span class="lbl">속보</span>
+  <span class="items"><b>베트남 냐짱산 침향 경매가 사상 최고치 경신</b><span>·</span>위조 침향 적발 전년比 38% 증가<span>·</span>국내 GC-MS 감별 표준안 공개<span>·</span>CITES 부속서 개정 논의</span>
+</div></div>
+
+<div class="wrap">
+  <div class="front">
+    <div class="lead-col">
+      <article class="lead">
+        <div class="kicker">심층 분석 · 시장</div>
+        <div class="cover"></div>
+        <h2 class="serif">침향은 왜 금보다 비싼가 — 가격을 결정하는 다섯 가지 변수</h2>
+        <p class="dek">수십 년의 수지 침착, 야생과 재배의 격차, 원산지와 등급, 그리고 위조의 그늘까지. 침향 가격의 정당성을 데이터로 해부한다.</p>
+        <div class="byline">Agarwooding 편집국 · 정밀 리포트 · 2026.06.28</div>
+      </article>
+
+      <div class="sec-stories">
+        <article class="mini">
+          <div class="thumb"></div>
+          <div class="kicker">역사 · 문헌</div>
+          <h3 class="serif">침향 명칭 혼란 — 沈香·기남·가라, 진짜 침향의 정의</h3>
+          <p>다양한 이름 뒤에 숨은 진위 논쟁과 올바른 이해. 고문헌과 현대 분류를 교차 검증한다.</p>
+        </article>
+        <article class="mini b">
+          <div class="thumb"></div>
+          <div class="kicker">과학 · 건강</div>
+          <h3 class="serif">침향과 만성염증 — 모든 질병의 근원을 겨누다</h3>
+          <p>아가로스피롤과 항염 작용의 과학적 근거를 임상·문헌으로 정리했다.</p>
+        </article>
+      </div>
+    </div>
+
+    <aside class="rail">
+      <div class="box">
+        <div class="bt">실시간 헤드라인 <span class="live"><i></i>LIVE</span></div>
+        <ul class="hl">
+          <li><span class="n">1</span><span class="t">베트남 가이드샵 '침향'의 불편한 진실 — 방향제를 식용으로 둔갑<span>감별 · 1.2만 읽음</span></span></li>
+          <li><span class="n">2</span><span class="t">정품 침향: 20년 올가닉 해썹 인증이 다른 이유<span>감별 · 9.8천</span></span></li>
+          <li><span class="n">3</span><span class="t">조선왕조실록 속 침향 — 왕들이 사랑한 최고의 향약<span>역사 · 8.1천</span></span></li>
+          <li><span class="n">4</span><span class="t">본초강목: 이시진이 27년간 연구한 향의 왕<span>역사 · 7.4천</span></span></li>
+          <li><span class="n">5</span><span class="t">침향 초보자 가이드 — 형태별 사용법과 등급 선택<span>라이프 · 6.9천</span></span></li>
+        </ul>
+      </div>
+
+      <div class="box">
+        <div class="bt">침향 신뢰지수 TOP</div>
+        <ul class="trust">
+          <li><span class="r">1</span><span class="bn">사이공 오드<span>베트남 · 냐짱</span></span><span class="sc g">8.7</span></li>
+          <li><span class="r">2</span><span class="bn">칼리만탄 가하루<span>인도네시아</span></span><span class="sc g">8.2</span></li>
+          <li><span class="r">3</span><span class="bn">앙코르 아가우드<span>캄보디아</span></span><span class="sc m">7.5</span></li>
+          <li><span class="r">4</span><span class="bn">아삼 오드 하우스<span>인도</span></span><span class="sc m">7.1</span></li>
+          <li><span class="r">5</span><span class="bn">메콩 아로마<span>위조 의혹</span></span><span class="sc r">4.6</span></li>
+        </ul>
+        <a class="all">전체 신뢰 랭킹 →</a>
+      </div>
+    </aside>
+  </div>
+
+  <!-- 연구 · 논문 -->
+  <section class="section">
+    <div class="shead alt"><h2 class="serif">연구 · 논문</h2><div class="rule"></div><a class="more">논문 아카이브 전체 →</a></div>
+    <div class="papers">
+      <article class="paper">
+        <div class="pj">Philology · Aquilariae Lignum</div>
+        <h3 class="serif">침향(Aquilariae Lignum)의 침수성(沈水性)에 관한 문헌학적 연구</h3>
+        <div class="en">A Philological Study on the Submersion Property of Aquilariae Lignum</div>
+        <p class="abs">'물에 가라앉는 성질(침수성)'을 침향 진위의 기준으로 삼아온 고문헌의 용례를 추적하고, 현대적 등급·감별 기준과의 정합성을 검토한다.</p>
+        <div class="meta"><b>한의학 문헌</b> · 2024 · 동의학연구 <span class="pdf">원문 PDF</span></div>
+      </article>
+      <article class="paper">
+        <div class="pj">Origin · Provenance</div>
+        <h3 class="serif">생산지에 기반한 침향의 기원에 관한 연구</h3>
+        <div class="en">A Research on the Origin of Aquilariae Lignum Based on its Production</div>
+        <p class="abs">주요 생산국별 아퀼라리아 수종과 생성 환경을 비교하여 원산지 판별의 과학적 근거와 추적성(traceability) 체계를 제안한다.</p>
+        <div class="meta"><b>약용식물학</b> · 2023 · 생약학회지 <span class="pdf">원문 PDF</span></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 심층 리포트 -->
+  <section class="section">
+    <div class="shead"><h2 class="serif">심층 리포트</h2><div class="rule"></div><a class="more">리포트 전체 →</a></div>
+    <div class="cards">
+      <article class="card"><div class="thumb"></div><div class="kicker">시장 · 산업</div><h3 class="serif">침향 재배 — 현대 산업과 지속 가능한 미래</h3><p>야생과 재배 침향의 격차, 그리고 2050년 침향 산업의 지형도.</p><div class="meta">Agarwooding 편집국 · 2026.06</div></article>
+      <article class="card b"><div class="thumb"></div><div class="kicker">문화</div><h3 class="serif">침향의 문화적 위상 — 동양 최고의 정신적 자산</h3><p>향도(香道)에서 신앙까지, 침향이 차지해 온 자리.</p><div class="meta">Agarwooding 편집국 · 2026.06</div></article>
+      <article class="card c"><div class="thumb"></div><div class="kicker">감별 · 신뢰</div><h3 class="serif">위조 침향의 경제학 — 누가, 어떻게, 왜</h3><p>합성 향 첨가부터 등급 과장까지, 위조의 구조를 추적한다.</p><div class="meta">Agarwooding 탐사팀 · 2026.06</div></article>
+    </div>
+  </section>
+
+  <!-- 지식 아카이브 -->
+  <section class="section">
+    <div class="shead"><h2 class="serif">지식 아카이브</h2><div class="rule"></div><a class="more">전체 주제 →</a></div>
+    <div class="archive">
+      <a class="topic"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 8v8M8 12h8"/><circle cx="12" cy="12" r="9"/></svg></div><div class="tn">역사·문헌</div><div class="tc">28편</div></a>
+      <a class="topic"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 3v6l-5 9a2 2 0 002 3h12a2 2 0 002-3l-5-9V3"/></svg></div><div class="tn">과학·성분</div><div class="tc">19편</div></a>
+      <a class="topic"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div><div class="tn">감별·진위</div><div class="tc">22편</div></a>
+      <a class="topic"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></div><div class="tn">등급·평가</div><div class="tc">14편</div></a>
+      <a class="topic"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg></div><div class="tn">문화·향도</div><div class="tc">17편</div></a>
+      <a class="topic"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg></div><div class="tn">시장·동향</div><div class="tc">11편</div></a>
+    </div>
+  </section>
+
+  <!-- 뉴스 -->
+  <section class="section">
+    <div class="shead"><h2 class="serif">뉴스</h2><div class="rule"></div><a class="more">전체 뉴스 →</a></div>
+    <div class="newsgrid">
+      <div class="nrow"><span class="nk">시장</span><span class="nt">침향과 선물 — 부모님께 드리는 최고의 건강 선물<span>06.28</span></span></div>
+      <div class="nrow"><span class="nk">과학</span><span class="nt">침향의 건강 효능: 과학적 증거와 경험<span>06.27</span></span></div>
+      <div class="nrow"><span class="nk">역사</span><span class="nt">고려시대 침향과 매향비 — 미륵신앙과의 만남<span>06.26</span></span></div>
+      <div class="nrow"><span class="nk">감별</span><span class="nt">아퀼라리아 아갈로차: 고문헌 속 그 침향의 정체<span>06.25</span></span></div>
+      <div class="nrow"><span class="nk">라이프</span><span class="nt">침향차·향로·오일 — 형태별 사용법 총정리<span>06.24</span></span></div>
+      <div class="nrow"><span class="nk">산업</span><span class="nt">3000년 침향 역사 — 고대 이집트부터 현대까지<span>06.23</span></span></div>
+      <div class="nrow"><span class="nk">시장</span><span class="nt">침향은 왜 비싼가? 금보다 귀한 이유<span>06.22</span></span></div>
+      <div class="nrow"><span class="nk">신뢰</span><span class="nt">정품 침향: 20년 올가닉 해썹 인증의 의미<span>06.21</span></span></div>
+    </div>
+  </section>
+
+  <!-- 신뢰 랭킹 (요약) -->
+  <section class="section">
+    <div class="shead alt"><h2 class="serif">침향 신뢰 랭킹</h2><div class="rule"></div><a class="more">전체 랭킹 →</a></div>
+    <div class="newsgrid">
+      <div class="nrow"><span class="nk g" style="font-family:var(--serif);font-size:16px">1 · 8.7</span><span class="nt">사이공 오드 <span>베트남 냐짱 · 검증 완료 · 현장 실사</span></span></div>
+      <div class="nrow"><span class="nk m" style="font-family:var(--serif);font-size:16px">3 · 7.5</span><span class="nt">앙코르 아가우드 <span>캄보디아 · 부분 검증</span></span></div>
+      <div class="nrow"><span class="nk g" style="font-family:var(--serif);font-size:16px">2 · 8.2</span><span class="nt">칼리만탄 가하루 <span>인도네시아 · 검증 완료</span></span></div>
+      <div class="nrow"><span class="nk r" style="font-family:var(--serif);font-size:16px">9 · 4.6</span><span class="nt">메콩 아로마 <span>베트남 · 위조 의혹 · 제보 12건</span></span></div>
+    </div>
+  </section>
+</div>
+
+<footer><div class="wrap">
+  <div class="top">
+    <div>
+      <h2 class="serif">Agarwooding</h2>
+      <p class="fd">침향의 뉴스·연구·신뢰를 잇는 전문 미디어. 위조 없는 침향 생태계를 위하여 — 국내 유일 침향 전문 채널.</p>
+    </div>
+    <div class="cols">
+      <div><h5>섹션</h5><ul><li>뉴스</li><li>심층 리포트</li><li>연구·논문</li><li>지식 아카이브</li><li>신뢰 랭킹</li></ul></div>
+      <div><h5>참여</h5><ul><li>제보·고발</li><li>전문가 기고</li><li>업체 등록</li><li>정정 요청</li></ul></div>
+      <div><h5>매체</h5><ul><li>발행·편집 원칙</li><li>평가 방법론</li><li>소개</li><li>연락처</li></ul></div>
+    </div>
+  </div>
+  <div class="copy"><span>© 2026 Agarwooding. 발행·편집 (주)트라이엔. All rights reserved.</span><span>개인정보처리방침 · 이용약관</span></div>
+</div></footer>
+
+</body>
+</html>
